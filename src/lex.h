@@ -5,7 +5,8 @@
 #define INT_DIGIT_MAX 64
 
 typedef enum ltoken_type {
-    TOK_INT
+    TOK_INT,
+    TOK_PLUS
 } ltoken_type;
 
 typedef struct ltoken {
@@ -27,6 +28,8 @@ typedef struct lexfout {
 lexmachine *new_lexmachine(char*);
 ltoken *new_ltoken(ltoken_type, char*, unsigned int);
 
+void L_skipspace(lexmachine*);
 void L_next(lexmachine*);
 char L_peek(lexmachine*);
 lexfout *IN_int(lexmachine*);
+ltoken *L_nexttoken(lexmachine*);

@@ -38,7 +38,17 @@ char L_peek(lexmachine *L)
     return L->source[L->mui_pointer];
 }
 
-lexfout *IN_int(lexmachine* L)
+void L_skipspace(lexmachine *L)
+{
+    char chr = L_peek(L);
+    while(chr != 0 && chr == ' ' || chr == '\n')
+    {
+        L_next(L);
+        chr = L_peek(L);
+    }
+}
+
+lexfout *IN_int(lexmachine *L)
 {
     char *buffer = calloc(INT_DIGIT_MAX, sizeof(char));
     char c = L_peek(L);
@@ -48,10 +58,10 @@ lexfout *IN_int(lexmachine* L)
         char peekc = L_peek(L);
         while(peekc != 0 && isdigit(peekc))
         {
-            peekc = L_peek(L);
             buffer[i] = peekc;
             L_next(L);
             i++;
+            peekc = L_peek(L);
         }
         buffer[i] = '\0';
     }
@@ -60,4 +70,35 @@ lexfout *IN_int(lexmachine* L)
     out->worked = buffer[0] == '\0' ? 0 : 1;
     out->token = new_ltoken(TOK_INT, buffer, L->mui_pointer);
     return out;
+}
+
+ltoken *L_nexttoken(lexmachine *L)
+{
+    L_skipspace(L);
+
+    if(L_peek(L) == 0)
+    {
+        return NULL;
+    }
+
+    switch (L_peek(L))
+    {
+        case '+':
+            L_next(L);
+            return new_ltoken(TOK_PLUS, "+", L->mui_pointer);
+            break;
+    
+        default:
+            if(isdigit(L_peek(L)))
+            {
+                lexfout *out = IN_int(L);
+                if(out->worked == 1)
+                {
+                    return out->token;
+                }
+            }
+            break;
+    }
+
+    return NULL;
 }
