@@ -4,7 +4,7 @@ EXE = bin/azuli.exe
 
 OBJ = src/main.o src/lex.o
 
-all: $(EXE)
+all: $(EXE) clean
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -13,4 +13,4 @@ $(EXE): $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
-	rm -f src/*.o
+	del /S *.o

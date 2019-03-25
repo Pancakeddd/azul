@@ -19,9 +19,14 @@ typedef struct lexmachine {
     unsigned int mui_pointer;
 } lexmachine;
 
+typedef struct lexfout {
+    ltoken *token;
+    int worked;
+} lexfout;
+
 lexmachine *new_lexmachine(char*);
 ltoken *new_ltoken(ltoken_type, char*, unsigned int);
 
 void L_next(lexmachine*);
 char L_peek(lexmachine*);
-int IN_int(lexmachine*);
+lexfout *IN_int(lexmachine*);

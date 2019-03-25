@@ -38,7 +38,7 @@ char L_peek(lexmachine *L)
     return L->source[L->mui_pointer];
 }
 
-int IN_int(lexmachine* L)
+lexfout *IN_int(lexmachine* L)
 {
     char *buffer = calloc(INT_DIGIT_MAX, sizeof(char));
     char c = L_peek(L);
@@ -56,5 +56,8 @@ int IN_int(lexmachine* L)
         buffer[i] = '\0';
     }
 
-    return buffer[0] == '\0' ? 0 : 1;
+    lexfout *out = malloc(sizeof(lexfout));
+    out->worked = buffer[0] == '\0' ? 0 : 1;
+    out->token = new_ltoken(TOK_INT, buffer, L->mui_pointer);
+    return out;
 }
