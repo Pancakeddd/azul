@@ -2,15 +2,15 @@ CC = gcc
 CFLAGS = -s -O3
 EXE = bin/azuli.exe
 
-OBJ = src/main.o
+OBJ = src/main.o src/lex.o
 
-all: $(EXE) clean
+all: $(EXE)
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(EXE)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
 	rm -f src/*.o

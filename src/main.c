@@ -3,6 +3,8 @@
 
 int main(int argc, char const *argv[])
 {
-    printf("Vatanam!");
+    lexmachine *L = new_lexmachine("t100");
+    printf("%d", IN_int(L));
+    free(L);
     return 0;
 }
