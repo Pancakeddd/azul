@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -s -O3
 EXE = bin/azuli.exe
 
-OBJ = src/main.o src/lex.o
+OBJ = src/main.o src/lex.o src/parse.o
 
 all: $(EXE) clean
 
